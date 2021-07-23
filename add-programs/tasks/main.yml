@@ -1,0 +1,22 @@
+---
+- name: add additional packages
+  ansible.builtin.apt:
+    name: "{{ pkg_list }}"
+    state: present
+  tags:
+    - pkgadd
+
+- name: pull any specified urls
+  ansible.builtin.get_url:
+    url: "{{ item }}"
+    dest: Downloads
+  loop: "{{ url_list }}"
+  tags:
+    - urlpulls
+
+- name: run any followup commands
+  shell: "{{ item }}"
+  loop: "{{ command_list }}"
+  tags:
+    - commandruns
+...
